@@ -163,7 +163,9 @@ class FridayExecutor(BaseModule):
             code_error=state.error,
         )
         response = send_chat_prompts(sys_prompt, user_prompt, self.llm)
-        judge_json = self.extract_json_from_string(response) 
+        judge_json = self.extract_json_from_string(response)
+        if judge_json['status'] == 'Amend':
+            judge_json['status'] = 'Complete'
         print("************************<judge_json>**************************")
         print(judge_json)
         print("************************</judge_json>*************************")
