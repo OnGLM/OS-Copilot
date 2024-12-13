@@ -4,6 +4,7 @@
 
 from langchain.vectorstores import Chroma
 from langchain.embeddings.openai import OpenAIEmbeddings
+from langchain_community.embeddings import ZhipuAIEmbeddings
 from langchain_community.embeddings import OllamaEmbeddings
 import argparse
 import json
@@ -65,9 +66,16 @@ class ToolManager:
         # Utilize the Chroma database and employ OpenAI Embeddings for vectorization (default: text-embedding-ada-002)
         
         if EMBED_MODEL_TYPE == "OpenAI":
-            embedding_function = OpenAIEmbeddings(
-                openai_api_key=OPENAI_API_KEY,
-                openai_organization=OPENAI_ORGANIZATION,
+            # embedding_function = OpenAIEmbeddings(
+            #     # openai_organization=OPENAI_ORGANIZATION,
+            #     model="embedding-3",
+            #     dimensions=1536,
+            #     openai_api_base="http://47.88.27.143:3000/v1"
+            # )
+            embedding_function = ZhipuAIEmbeddings(
+                model="embedding-3",
+                api_key="5100051d97ec143883391dc16323bc92.xtni5dN9TSa76uH3",
+                dimensions=1536,
             )
         elif EMBED_MODEL_TYPE == "OLLAMA":
             embedding_function = OllamaEmbeddings(model=EMBED_MODEL_NAME)
@@ -247,6 +255,7 @@ class ToolManager:
             return []
         print(f"\033[33mTool Manager retrieving for {k} Tools\033[0m")
         # Retrieve descriptions of the top k related tasks.
+        print("query:", query)
         docs_and_scores = self.vectordb.similarity_search_with_score(query, k=k)
         print(
             f"\033[33mTool Manager retrieved tools: "
