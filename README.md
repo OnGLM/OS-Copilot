@@ -59,7 +59,7 @@ OS-Copilot is an open-source library to build generalist agents capable of autom
    pip install -e .
    ```
 
-3. **Set OpenAI API Key:** Configure your OpenAI API key in [.env](.env).
+3. **Set OpenAI API Key:** Configure your OpenAI API key in [.env](.env).use zhipu api key 
 
    ```
    cp .env_template .env
